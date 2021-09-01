@@ -1,0 +1,52 @@
+en:
+  menu:
+    run: "Hello Stranger! Codebreaker is a logic game in which you need to break a secret code created by a code-maker.
+\nYou get some number of chances to break the code (depends on chosen difficulty).\n
+In each turn make a guess of 4 numbers.\n
+The codemaker then marks the guess with up to 4 signs - + or - or empty spaces."
+    start: "You have 4 options to write: start, rules, stats, exit."
+    exit: "Goodbye!"
+    name: "Write your name!"
+    code: "Write secret code!"
+    difficulties: "Choose one of three difficulties:
+Easy - 15 attempts. 2 hints
+Medium - 10 attempts. 1 hint
+Hell - 5 attempts. 1 hint
+Write what you want"
+    rules: "The codebreaker gets some number of chances to break the code (depends on chosen difficulty).\n
+In each turn, the codebreaker makes a guess of 4 numbers.\n
+The codemaker then marks the guess with up to 4 signs - + or - or empty spaces.\n
+A + indicates an exact match: one of the numbers in the guess is the same as one of the numbers\n
+in the secret code and in the same position. For example:\n
+
+Secret number - 1234\n
+Input number - 6264\n
+
+Number of pluses - 2 (second and fourth position)\n
+A - indicates a number match: one of the numbers in the guess is the same as one of the numbers\n
+ in the secret code but in a different position. For example:\n
+
+Secret number - 1234\n
+Input number - 6462\n
+
+Number of minuses - 2 (second and fourth position)\n
+An empty space indicates that there is not a current digit in a secret number.\n
+If codebreaker inputs the exact number as a secret number - codebreaker wins the game.\n
+If all attempts are spent - codebreaker loses.\n
+Codebreaker also has some number of hints(depends on chosen difficulty).\n
+If a user takes a hint - he receives back a separate digit of the secret code."
+    stats:
+      empty: "No any stats yet. File is empty."
+      nofile: "No any stats yet. File doesn't exist"
+  error:
+    command: "Unexpected message. Please, try again!"
+    name: "Min length - 3 symbols, max length - 20! Let's try again."
+    code: "Your code is invalid. You can write exit, hint, rules or your code one more time!"
+  game:
+    hints: "You use all of your hints("
+    new: "Write 'yes' or 'no', please."
+    win: "You win! The right answer is %{code}! Would you like to save the game to the stats?\n
+Enter 'save' if you want, 'exit' if you want to end the game and 'start' if you want to start a new game!"
+    lose: Youve already used all of your attempts. Unfortunately, you lose. The correct answer is %{code}.
+    start: "Would you like to begin new game? Write 'yes' or 'no'!"
+
