@@ -7,9 +7,8 @@ RSpec.describe Game::Game do
                             difficulty: 0, attempts_used: 0, hints_used: 0, attempts_total: 15, hints_total: 2)
   end
   let(:game_double) { instance_double('NewSuperCodebreaker2021::Game') }
-  let(:game) { described_class.new(user1, [1, 2, 3, 4], game_double) }
+  let(:game) { described_class.new(user1, game_double) }
   let(:my_user_creation) { instance_double('UserCreation::UserCreation') }
-  # subject { described_class.new(user1, [1, 2, 3, 4], game_double) }
 
   before do
     allow(NewSuperCodebreaker2021::Game).to receive(:new) { game_double }

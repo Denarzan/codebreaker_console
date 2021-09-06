@@ -14,6 +14,6 @@ gem 'rspec', '~> 3.10.0'
 
 gem 'i18n', '~> 1.8.10'
 
-gem 'new_super_codebreaker_2021', '~> 0.3.3'
+gem 'new_super_codebreaker_2021', '~> 0.4.3'
 
 gem 'terminal-table', '~> 3.0.1'

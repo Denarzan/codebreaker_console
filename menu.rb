@@ -15,6 +15,7 @@ class Menu
   def run
     @game = NewSuperCodebreaker2021::Game.new
     View.run
+    puts @game.instance_variable_get(:@code).class
     start_command
   end
 
@@ -22,7 +23,7 @@ class Menu
 
   def start_command
     loop do
-      case @game.chose_com(View.get_input(View.start))
+      case @game.chose_command(View.get_input(View.start))
       when :start then start_game
       when :rules then View.rules
       when :stats then show_statistic
@@ -44,16 +45,15 @@ class Menu
 
   def start_game
     @user = UserCreation.new(@game).create_user
-    @code = @game.generate_code
     game
   end
 
   def game
-    game_result = Game.new(@user, @code, @game).user_guess_init
+    game_result = Game.new(@user, @game).user_guess_init
     case game_result
     when 'win' then win_game
     when 'lose'
-      View.lose(@code)
+      View.lose(@game.instance_variable_get(:@code))
       attempt_to_start
     else
       View.error_message
@@ -61,7 +61,7 @@ class Menu
   end
 
   def win_game
-    command = View.get_input(View.win(@code))
+    command = View.get_input(View.win(@game.instance_variable_get(:@code)))
     case command
     when 'save' then save_game
     when 'exit' then View.exit_game

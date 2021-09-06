@@ -2,18 +2,16 @@ require_relative 'view'
 
 module Game
   class Game
-    attr_reader :user, :code, :game, :used_hints
+    attr_reader :user, :game, :used_hints
 
-    def initialize(user, code, game)
+    def initialize(user, game)
       @user = user
-      @code = code
       @game = game
       @used_hints = []
     end
 
     def user_guess_init
       loop do
-        # puts @code
         user_input = @game.user_guess(View.get_input(View.write_code))
         return 'lose' if @user.attempts_total == @user.attempts_used + 1
 
@@ -44,15 +42,14 @@ module Game
     end
 
     def use_hint
-      code_copy = @code.dup
-      hint = @game.take_hint(@user, code_copy, @used_hints)
+      hint = @game.take_hint(@user, @used_hints)
       @used_hints.push(hint)
       puts hint
     end
 
     def use_attempt(user_code)
       @user.attempts_used += 1
-      compare = @game.compare_codes(@code, user_code)
+      compare = @game.compare_codes(user_code)
       print "#{compare.join(' ')}\n"
       'win' if %w[+ + + +].join == compare.join
     end

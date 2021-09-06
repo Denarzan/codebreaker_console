@@ -41,3 +41,10 @@
   attempts_used: 3
   hints_total: 1
   attempts_total: 10
+- !ruby/object:User
+  name: Nazar
+  difficulty: 2
+  hints_used: 0
+  attempts_used: 2
+  hints_total: 1
+  attempts_total: 5

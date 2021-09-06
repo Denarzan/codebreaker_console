@@ -9,10 +9,11 @@ RSpec.describe Menu do
   let(:game_double) { instance_double('NewSuperCodebreaker2021::Game') }
   let(:menu) { described_class.new('test.yml') }
   let(:my_user_creation) { instance_double('UserCreation::UserCreation') }
-  let(:game_module) { instance_double('Game::Game', user: user1, code: [1, 2, 3, 4], game: game_double) }
+  let(:game_module) { instance_double('Game::Game', user: user1, game: game_double) }
 
   before do
     allow(NewSuperCodebreaker2021::Game).to receive(:new) { game_double }
+    game_double.instance_variable_set(:@code, [1, 2, 3, 4])
     allow(menu).to receive(:puts)
     allow(view).to receive(:puts)
   end
@@ -28,7 +29,7 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('rules', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:rules, :exit)
+        allow(game_double).to receive(:chose_command).and_return(:rules, :exit)
       end
       it 'output rules if input is rules' do
         expect(view).to receive(:rules)
@@ -39,7 +40,7 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('stats', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:stats, :exit)
+        allow(game_double).to receive(:chose_command).and_return(:stats, :exit)
       end
       it 'output stats if input is stats' do
         expect(menu).to receive(:show_statistic)
@@ -50,7 +51,7 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('start', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:start, :exit)
+        allow(game_double).to receive(:chose_command).and_return(:start, :exit)
       end
       it 'starts game if input is start' do
         expect(menu).to receive(:start_game)
@@ -61,7 +62,7 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('monkey', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:monkey, :exit)
+        allow(game_double).to receive(:chose_command).and_return(:monkey, :exit)
       end
       it 'output error if input is monkey' do
         expect(view).to receive(:error_message)
@@ -72,7 +73,7 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('stats', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:stats, :exit)
+        allow(game_double).to receive(:chose_command).and_return(:stats, :exit)
       end
       it 'should return file does not exist' do
         expect(view).to receive(:no_file)
@@ -84,7 +85,7 @@ RSpec.describe Menu do
         File.open('test.yml', 'w')
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('stats', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:stats, :exit)
+        allow(game_double).to receive(:chose_command).and_return(:stats, :exit)
       end
       after do
         File.delete('test.yml') if File.exist? 'test.yml'
@@ -103,7 +104,7 @@ RSpec.describe Menu do
         File.open('test.yml', 'w') { |file| file.write('stat') }
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('stats', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:stats, :exit)
+        allow(game_double).to receive(:chose_command).and_return(:stats, :exit)
       end
       after do
         File.delete('test.yml') if File.exist? 'test.yml'
@@ -121,10 +122,9 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('start', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:start, :exit)
+        allow(game_double).to receive(:chose_command).and_return(:start, :exit)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(UserCreation::UserCreation).to receive(:new).and_return(my_user_creation)
-        allow(game_double).to receive(:generate_code).and_return('1234')
       end
       it 'call game method' do
         expect(menu).to receive(:game)
@@ -135,10 +135,9 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('start', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:start, :exit)
+        allow(game_double).to receive(:chose_command).and_return(:start, :exit)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(UserCreation::UserCreation).to receive(:new).and_return(my_user_creation)
-        allow(game_double).to receive(:generate_code).and_return('1234')
         allow(game_module).to receive(:user_guess_init).and_return('win')
         allow(Game::Game).to receive(:new).and_return(game_module)
       end
@@ -151,10 +150,9 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('start', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:start, :exit)
+        allow(game_double).to receive(:chose_command).and_return(:start, :exit)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(UserCreation::UserCreation).to receive(:new).and_return(my_user_creation)
-        allow(game_double).to receive(:generate_code).and_return('1234')
         allow(game_module).to receive(:user_guess_init).and_return('lose')
         allow(Game::Game).to receive(:new).and_return(game_module)
         allow(game_double).to receive(:attempt_to_start)
@@ -168,10 +166,9 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('start', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:start, :exit)
+        allow(game_double).to receive(:chose_command).and_return(:start, :exit)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(UserCreation::UserCreation).to receive(:new).and_return(my_user_creation)
-        allow(game_double).to receive(:generate_code).and_return('1234')
         allow(game_module).to receive(:user_guess_init).and_return('monkey')
         allow(Game::Game).to receive(:new).and_return(game_module)
         allow(game_double).to receive(:attempt_to_start)
@@ -185,10 +182,9 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('start', 'save', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:start)
+        allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(UserCreation::UserCreation).to receive(:new).and_return(my_user_creation)
-        allow(game_double).to receive(:generate_code).and_return([1, 2, 3, 4])
         allow(game_module).to receive(:user_guess_init).and_return('win')
         allow(Game::Game).to receive(:new).and_return(game_module)
       end
@@ -201,10 +197,9 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('start', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:start)
+        allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(UserCreation::UserCreation).to receive(:new).and_return(my_user_creation)
-        allow(game_double).to receive(:generate_code).and_return([1, 2, 3, 4])
         allow(game_module).to receive(:user_guess_init).and_return('win')
         allow(Game::Game).to receive(:new).and_return(game_module)
       end
@@ -217,13 +212,11 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('start', 'start', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:start)
+        allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(UserCreation::UserCreation).to receive(:new).and_return(my_user_creation)
-        allow(game_double).to receive(:generate_code).and_return([1, 2, 3, 4])
         allow(game_module).to receive(:user_guess_init).and_return('win')
         allow(Game::Game).to receive(:new).and_return(game_module)
-        # allow(view).to receive(:get_input).and_return('start')
       end
       it 'call start method' do
         expect(view).to receive(:run).twice
@@ -234,10 +227,9 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('start', 'monkey', 'exit', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:start)
+        allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(UserCreation::UserCreation).to receive(:new).and_return(my_user_creation)
-        allow(game_double).to receive(:generate_code).and_return([1, 2, 3, 4])
         allow(game_module).to receive(:user_guess_init).and_return('win')
         allow(Game::Game).to receive(:new).and_return(game_module)
       end
@@ -250,10 +242,9 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('start', 'save', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:start)
+        allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(UserCreation::UserCreation).to receive(:new).and_return(my_user_creation)
-        allow(game_double).to receive(:generate_code).and_return([1, 2, 3, 4])
         allow(game_module).to receive(:user_guess_init).and_return('win')
         allow(Game::Game).to receive(:new).and_return(game_module)
         allow(game_double).to receive(:save)
@@ -267,10 +258,9 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('start', 'save', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:start, :exit)
+        allow(game_double).to receive(:chose_command).and_return(:start, :exit)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(UserCreation::UserCreation).to receive(:new).and_return(my_user_creation)
-        allow(game_double).to receive(:generate_code).and_return([1, 2, 3, 4])
         allow(game_module).to receive(:user_guess_init).and_return('win')
         allow(Game::Game).to receive(:new).and_return(game_module)
         allow(game_double).to receive(:save)
@@ -285,10 +275,9 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('start', 'save', 'exit')
-        allow(game_double).to receive(:chose_com).and_return(:start, :exit)
+        allow(game_double).to receive(:chose_command).and_return(:start, :exit)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(UserCreation::UserCreation).to receive(:new).and_return(my_user_creation)
-        allow(game_double).to receive(:generate_code).and_return([1, 2, 3, 4])
         allow(game_module).to receive(:user_guess_init).and_return('win')
         allow(Game::Game).to receive(:new).and_return(game_module)
         allow(game_double).to receive(:save)
@@ -303,10 +292,9 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('start')
-        allow(game_double).to receive(:chose_com).and_return(:start, :exit)
+        allow(game_double).to receive(:chose_command).and_return(:start, :exit)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(UserCreation::UserCreation).to receive(:new).and_return(my_user_creation)
-        allow(game_double).to receive(:generate_code).and_return([1, 2, 3, 4])
         allow(game_module).to receive(:user_guess_init).and_return('lose')
         allow(Game::Game).to receive(:new).and_return(game_module)
         allow(game_double).to receive(:attempt_to_start).and_return(:yes)
@@ -320,10 +308,9 @@ RSpec.describe Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:get_input).and_return('start', 'no')
-        allow(game_double).to receive(:chose_com).and_return(:start)
+        allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(UserCreation::UserCreation).to receive(:new).and_return(my_user_creation)
-        allow(game_double).to receive(:generate_code).and_return([1, 2, 3, 4])
         allow(game_module).to receive(:user_guess_init).and_return('lose')
         allow(Game::Game).to receive(:new).and_return(game_module)
         allow(game_double).to receive(:attempt_to_start).and_return(:no)
