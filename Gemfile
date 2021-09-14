@@ -7,7 +7,7 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 group :development do
   gem 'fasterer', '~> 0.9.0'
   gem 'i18n', '~> 1.8.10'
-  gem 'new_super_codebreaker_2021', '~> 0.4.8'
+  gem 'new_super_codebreaker_2021', '~> 0.4.9'
   gem 'rubocop', '~> 1.7'
   gem 'terminal-table', '~> 3.0.1'
 end

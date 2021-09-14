@@ -1,4 +1,4 @@
-require_relative 'spec_helper'
+require_relative '../spec_helper'
 
 RSpec.describe CodebreakerConsole::Menu do
   subject(:view) { CodebreakerConsole::View }
