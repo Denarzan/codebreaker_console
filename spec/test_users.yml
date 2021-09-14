@@ -1,120 +1,71 @@
 ---
-- !ruby/object:User
+- !ruby/object:NewSuperCodebreaker2021::User
   name: asdas
   difficulty: 0
   hints_used: 2
   attempts_used: 12
   hints_total: 2
   attempts_total: 15
-- !ruby/object:User
+- !ruby/object:NewSuperCodebreaker2021::User
   name: asdasd
   difficulty: 0
   hints_used: 2
   attempts_used: 8
   hints_total: 2
   attempts_total: 15
-- !ruby/object:User
+- !ruby/object:NewSuperCodebreaker2021::User
   name: adasd
   difficulty: 0
   hints_used: 2
   attempts_used: 10
   hints_total: 2
   attempts_total: 15
-- !ruby/object:User
+- !ruby/object:NewSuperCodebreaker2021::User
   name: Nazar
   difficulty: 0
   hints_used: 2
   attempts_used: 13
   hints_total: 2
   attempts_total: 15
-- !ruby/object:User
+- !ruby/object:NewSuperCodebreaker2021::User
   name: asda
   difficulty: 2
   hints_used: 0
   attempts_used: 1
   hints_total: 1
   attempts_total: 5
-- !ruby/object:User
+- !ruby/object:NewSuperCodebreaker2021::User
   name: Max
   difficulty: 1
   hints_used: 1
   attempts_used: 3
   hints_total: 1
   attempts_total: 10
-- !ruby/object:User
+- !ruby/object:NewSuperCodebreaker2021::User
   name: Nazar
   difficulty: 2
   hints_used: 0
   attempts_used: 2
   hints_total: 1
   attempts_total: 5
-- !ruby/object:User
+- !ruby/object:NewSuperCodebreaker2021::User
   name: Nazar
   difficulty: 0
   hints_used: 2
   attempts_used: 13
   hints_total: 2
   attempts_total: 15
-- !ruby/object:User
+- !ruby/object:NewSuperCodebreaker2021::User
   name: Nazar
   difficulty: 0
   hints_used: 2
   attempts_used: 10
   hints_total: 2
   attempts_total: 15
-- !ruby/object:User
+- !ruby/object:NewSuperCodebreaker2021::User
   name: Nazar
   difficulty: 0
   hints_used: 2
   attempts_used: 13
-  hints_total: 2
-  attempts_total: 15
-- !ruby/object:User
-  name: Nazar
-  difficulty: 0
-  hints_used: 2
-  attempts_used: 14
-  hints_total: 2
-  attempts_total: 15
-- !ruby/object:User
-  name: Nazar
-  difficulty: 0
-  hints_used: 2
-  attempts_used: 14
-  hints_total: 2
-  attempts_total: 15
-- !ruby/object:User
-  name: Nazar
-  difficulty: 0
-  hints_used: 2
-  attempts_used: 15
-  hints_total: 2
-  attempts_total: 15
-- !ruby/object:User
-  name: Nazar
-  difficulty: 0
-  hints_used: 2
-  attempts_used: 16
-  hints_total: 2
-  attempts_total: 15
-- !ruby/object:User
-  name: Nazar
-  difficulty: 0
-  hints_used: 2
-  attempts_used: 17
-  hints_total: 2
-  attempts_total: 15
-- !ruby/object:User
-  name: Nazar
-  difficulty: 0
-  hints_used: 2
-  attempts_used: 18
-  hints_total: 2
-  attempts_total: 15
-- !ruby/object:User
-  name: Nazar
-  difficulty: 0
-  hints_used: 2
-  attempts_used: 19
   hints_total: 2
   attempts_total: 15

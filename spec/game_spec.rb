@@ -117,7 +117,6 @@ RSpec.describe CodebreakerConsole::Game do
     end
   end
 
-
   context '#decryption' do
     before do
       allow(view).to receive(:fetch_input).and_return('hint')
@@ -159,5 +158,4 @@ RSpec.describe CodebreakerConsole::Game do
       # Ignored
     end
   end
-
 end

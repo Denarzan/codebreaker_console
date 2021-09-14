@@ -1,7 +1,6 @@
 module CodebreakerConsole
   module View
     class << self
-
       DIFFICULTY = {
         easy: { attempts: 15, hints: 2 },
         medium: { attempts: 10, hints: 1 },

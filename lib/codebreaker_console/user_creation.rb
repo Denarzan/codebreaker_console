@@ -10,9 +10,9 @@ module CodebreakerConsole
       name = name_init
       difficulty = difficulty_init
       case difficulty
-      when 'easy' then User.new(name, 0)
-      when 'medium' then User.new(name, 1)
-      when 'hell' then User.new(name, 2)
+      when 'easy' then NewSuperCodebreaker2021::User.new(name, 0)
+      when 'medium' then NewSuperCodebreaker2021::User.new(name, 1)
+      when 'hell' then NewSuperCodebreaker2021::User.new(name, 2)
       else View.error_message
       end
     end

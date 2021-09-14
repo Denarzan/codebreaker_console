@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module CodebreakerConsole
   class Menu
     include CodebreakerConsole
@@ -23,10 +21,9 @@ module CodebreakerConsole
       when :rules then View.rules
       when :stats then show_statistic
       when :exit then View.exit_game
-      else
-        View.error_message
-        start_command
+      else View.error_message
       end
+      start_command
     end
 
     def show_statistic
