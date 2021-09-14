@@ -1,3 +1,3 @@
-require_relative 'menu'
+require_relative 'lib/codebreaker_console'
 
-Menu.new('rating.yml').run
+CodebreakerConsole::Menu.new.run

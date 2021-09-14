@@ -1,6 +1,4 @@
-require_relative 'view'
-require 'new_super_codebreaker_2021'
-module UserCreation
+module CodebreakerConsole
   class UserCreation
     include View
 
@@ -22,19 +20,24 @@ module UserCreation
     private
 
     def name_init
-      loop do
-        name = @game.take_name(View.get_input(View.write_name))
-        case name
-        when :exit then View.exit_game
-        when false then View.bad_name_error
-        else
-          return name
-        end
+      View.write_name
+      name = @game.take_name(View.fetch_input)
+      case name
+      when :exit then View.exit_game
+      when false then View.bad_name_error
+      else
+        return name
       end
+      name_init
     end
 
     def difficulty_init
-      difficulty = @game.chose_difficulty(View.get_input(View.difficulties))
+      View.difficulties
+      difficulty = @game.chose_difficulty(View.fetch_input)
+      check_difficulty(difficulty)
+    end
+
+    def check_difficulty(difficulty)
       case difficulty
       when :easy then 'easy'
       when :medium then 'medium'

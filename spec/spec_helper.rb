@@ -1,3 +1,6 @@
+require 'bundler/setup'
+Bundler.setup(:defaults, :development, :test)
+
 require 'simplecov'
 SimpleCov.start do
   minimum_coverage 95
@@ -5,8 +8,4 @@ SimpleCov.start do
   add_filter 'vendor'
 end
 
-require 'bundler/setup'
-
-require_relative '../view'
-require_relative '../game'
-require_relative '../menu'
+require 'codebreaker_console'

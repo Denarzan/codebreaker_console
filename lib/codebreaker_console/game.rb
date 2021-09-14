@@ -1,6 +1,4 @@
-require_relative 'view'
-
-module Game
+module CodebreakerConsole
   class Game
     attr_reader :user, :game, :used_hints
 
@@ -11,13 +9,14 @@ module Game
     end
 
     def user_guess_init
-      loop do
-        user_input = @game.user_guess(View.get_input(View.write_code))
-        return 'lose' if @user.attempts_total == @user.attempts_used + 1
+      View.write_code
+      user_input = @game.user_guess(View.fetch_input)
+      return 'lose' if @user.attempts_total == @user.attempts_used + 1
 
-        result = decryption(user_input)
-        return 'win' if result == 'win'
-      end
+      result = decryption(user_input)
+      return 'win' if result == 'win'
+
+      user_guess_init
     end
 
     private
