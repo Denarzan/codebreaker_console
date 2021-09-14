@@ -1,5 +1,5 @@
-require 'bundler/setup'
-Bundler.setup(:defaults, :development, :test)
+# require 'bundler/setup'
+# Bundler.setup(:test)
 
 require 'simplecov'
 SimpleCov.start do

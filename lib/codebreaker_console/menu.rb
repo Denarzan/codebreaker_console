@@ -27,12 +27,11 @@ module CodebreakerConsole
     end
 
     def show_statistic
-      if File.zero?(@file)
-        View.empty_file
-      elsif File.file?(@file)
+      if File.file?(@file)
+        return View.empty_file if File.zero?(@file)
+
         View.statistic(@game, @file)
-      else
-        View.no_file
+      else View.no_file
       end
     end
 
@@ -48,13 +47,12 @@ module CodebreakerConsole
       when 'lose'
         View.lose(@game.instance_variable_get(:@code))
         attempt_to_start
-      else
-        View.error_message
+      else View.error_message
       end
     end
 
     def win_game
-      View.win(@game.instance_variable_get(:@code))
+      View.win(@game.code)
       command = View.fetch_input
       case command
       when 'save' then save_game
@@ -77,8 +75,7 @@ module CodebreakerConsole
       case command
       when :yes then true
       when :no then View.exit_game
-      else
-        View.error_message
+      else View.error_message
       end
     end
   end

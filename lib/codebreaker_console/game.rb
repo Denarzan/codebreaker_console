@@ -50,7 +50,7 @@ module CodebreakerConsole
       @user.attempts_used += 1
       compare = @game.compare_codes(user_code)
       print "#{compare.join(' ')}\n"
-      'win' if %w[+ + + +].join == compare.join
+      'win' if compare.join == '++++'
     end
   end
 end

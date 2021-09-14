@@ -184,6 +184,7 @@ RSpec.describe CodebreakerConsole::Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:fetch_input).and_return('start', 'save', 'exit')
+        allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
         allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(CodebreakerConsole::UserCreation).to receive(:new).and_return(my_user_creation)
@@ -199,6 +200,7 @@ RSpec.describe CodebreakerConsole::Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:fetch_input).and_return('start', 'exit')
+        allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
         allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(CodebreakerConsole::UserCreation).to receive(:new).and_return(my_user_creation)
@@ -214,6 +216,7 @@ RSpec.describe CodebreakerConsole::Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:fetch_input).and_return('start', 'start', 'exit')
+        allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
         allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(CodebreakerConsole::UserCreation).to receive(:new).and_return(my_user_creation)
@@ -229,6 +232,7 @@ RSpec.describe CodebreakerConsole::Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:fetch_input).and_return('start', 'monkey', 'exit', 'exit')
+        allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
         allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(CodebreakerConsole::UserCreation).to receive(:new).and_return(my_user_creation)
@@ -244,6 +248,7 @@ RSpec.describe CodebreakerConsole::Menu do
       before do
         allow(view).to receive(:start_command)
         allow(view).to receive(:fetch_input).and_return('start', 'save', 'exit')
+        allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
         allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(CodebreakerConsole::UserCreation).to receive(:new).and_return(my_user_creation)
@@ -261,6 +266,7 @@ RSpec.describe CodebreakerConsole::Menu do
         allow(view).to receive(:start_command)
         allow(view).to receive(:fetch_input).and_return('start', 'save', 'exit')
         allow(game_double).to receive(:chose_command).and_return(:start, :exit)
+        allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(CodebreakerConsole::UserCreation).to receive(:new).and_return(my_user_creation)
         allow(game_module).to receive(:user_guess_init).and_return('win')
@@ -278,6 +284,7 @@ RSpec.describe CodebreakerConsole::Menu do
         allow(view).to receive(:start_command)
         allow(view).to receive(:fetch_input).and_return('start', 'save', 'exit')
         allow(game_double).to receive(:chose_command).and_return(:start, :exit)
+        allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(CodebreakerConsole::UserCreation).to receive(:new).and_return(my_user_creation)
         allow(game_module).to receive(:user_guess_init).and_return('win')
