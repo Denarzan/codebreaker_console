@@ -1,5 +1,3 @@
-require_relative '../spec_helper'
-
 RSpec.describe CodebreakerConsole::UserCreation do
   subject(:view) { CodebreakerConsole::View }
   let(:user1) do

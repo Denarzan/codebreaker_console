@@ -2,8 +2,10 @@ module CodebreakerConsole
   class Menu
     include CodebreakerConsole
 
+    FILE = 'rating.yml'.freeze
+
     def initialize
-      @file = 'rating.yml'
+      @file = FILE
     end
 
     def run
@@ -45,7 +47,7 @@ module CodebreakerConsole
       case game_result
       when 'win' then win_game
       when 'lose'
-        View.lose(@game.instance_variable_get(:@code))
+        View.lose(@game.code)
         attempt_to_start
       else View.error_message
       end
@@ -65,7 +67,7 @@ module CodebreakerConsole
     end
 
     def save_game
-      @game.save(@user, 'rating.yml')
+      @game.save(@user, FILE)
       attempt_to_start
     end
 

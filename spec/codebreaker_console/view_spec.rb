@@ -1,6 +1,3 @@
-require_relative '../spec_helper'
-require 'yaml'
-
 RSpec.shared_examples 'puts method' do |name_function, *args|
   describe "##{name_function}" do
     it 'method to output text' do
@@ -12,7 +9,7 @@ end
 
 RSpec.describe CodebreakerConsole::View do
   let(:game_double) { instance_double('NewSuperCodebreaker2021::Game') }
-  let(:users) { YAML.load_file('spec/codebreaker_console/test_users.yml') }
+  let(:users) { YAML.load_file('spec/support/test_users.yml') }
 
   before do
     allow(NewSuperCodebreaker2021::Game).to receive(:new) { game_double }
@@ -43,7 +40,7 @@ RSpec.describe CodebreakerConsole::View do
     end
     it 'should return text if it is' do
       expect(CodebreakerConsole::View).to receive(:puts)
-      CodebreakerConsole::View.statistic(game_double, 'spec/codebreaker_console/test_users.yml')
+      CodebreakerConsole::View.statistic(game_double, 'spec/support/test_users.yml')
     end
   end
 end

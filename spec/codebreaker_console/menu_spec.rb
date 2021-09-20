@@ -1,5 +1,3 @@
-require_relative '../spec_helper'
-
 RSpec.describe CodebreakerConsole::Menu do
   subject(:view) { CodebreakerConsole::View }
   let(:user1) do
@@ -10,11 +8,12 @@ RSpec.describe CodebreakerConsole::Menu do
   let(:menu) { described_class.new }
   let(:my_user_creation) { instance_double('CodebreakerConsole::UserCreation') }
   let(:game_module) { instance_double('CodebreakerConsole::Game', user: user1, game: game_double) }
+  let(:code) { [1, 2, 3, 4] }
 
   before do
     allow(NewSuperCodebreaker2021::Game).to receive(:new) { game_double }
-    game_double.instance_variable_set(:@code, [1, 2, 3, 4])
-    menu.instance_variable_set(:@file, 'test.yml')
+    allow(game_double).to receive(:code).and_return(code)
+    stub_const('CodebreakerConsole::Menu::FILE', 'test.yml')
     allow(menu).to receive(:puts)
     allow(view).to receive(:puts)
   end
@@ -28,8 +27,7 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#start_command' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('rules', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('rules', 'exit')
         allow(game_double).to receive(:chose_command).and_return(:rules, :exit)
       end
       it 'output rules if input is rules' do
@@ -39,8 +37,7 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#start_command' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('stats', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('stats', 'exit')
         allow(game_double).to receive(:chose_command).and_return(:stats, :exit)
       end
       it 'output stats if input is stats' do
@@ -50,8 +47,7 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#start_command' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('start', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('start', 'exit')
         allow(game_double).to receive(:chose_command).and_return(:start, :exit)
       end
       it 'starts game if input is start' do
@@ -61,8 +57,7 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#start_command' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('monkey', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('monkey', 'exit')
         allow(game_double).to receive(:chose_command).and_return(:monkey, :exit)
       end
       it 'output error if input is monkey' do
@@ -72,10 +67,8 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#show_statistic' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('stats', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('stats', 'exit')
         allow(game_double).to receive(:chose_command).and_return(:stats, :exit)
-        # allow(game_double).to receive(:show_stats).and_return('')
       end
       it 'should return file does not exist' do
         expect(view).to receive(:no_file)
@@ -85,8 +78,7 @@ RSpec.describe CodebreakerConsole::Menu do
     context '#show_statistic' do
       before do
         File.open('test.yml', 'w')
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('stats', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('stats', 'exit')
         allow(game_double).to receive(:chose_command).and_return(:stats, :exit)
       end
       after do
@@ -104,8 +96,7 @@ RSpec.describe CodebreakerConsole::Menu do
     context '#show_statistic' do
       before do
         File.open('test.yml', 'w') { |file| file.write('stat') }
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('stats', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('stats', 'exit')
         allow(game_double).to receive(:chose_command).and_return(:stats, :exit)
       end
       after do
@@ -122,8 +113,7 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#start_game' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('start', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('start', 'exit')
         allow(game_double).to receive(:chose_command).and_return(:start, :exit)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(CodebreakerConsole::UserCreation).to receive(:new).and_return(my_user_creation)
@@ -135,8 +125,7 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#game' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('start', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('start', 'exit')
         allow(game_double).to receive(:chose_command).and_return(:start, :exit)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(CodebreakerConsole::UserCreation).to receive(:new).and_return(my_user_creation)
@@ -150,13 +139,13 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#game' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('start', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('start', 'exit')
         allow(game_double).to receive(:chose_command).and_return(:start, :exit)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(CodebreakerConsole::UserCreation).to receive(:new).and_return(my_user_creation)
         allow(game_module).to receive(:user_guess_init).and_return('lose')
         allow(CodebreakerConsole::Game).to receive(:new).and_return(game_module)
+        allow(game_double).to receive(:code)
         allow(game_double).to receive(:attempt_to_start)
       end
       it 'call lose method' do
@@ -166,8 +155,7 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#game' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('start', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('start', 'exit')
         allow(game_double).to receive(:chose_command).and_return(:start, :exit)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(CodebreakerConsole::UserCreation).to receive(:new).and_return(my_user_creation)
@@ -182,8 +170,7 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#win_game' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('start', 'save', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('start', 'save', 'exit')
         allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
         allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
@@ -198,8 +185,7 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#win_game' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('start', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('start', 'exit')
         allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
         allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
@@ -214,8 +200,7 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#win_game' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('start', 'start', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('start', 'start', 'exit')
         allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
         allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
@@ -230,8 +215,7 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#win_game' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('start', 'monkey', 'exit', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('start', 'monkey', 'exit', 'exit')
         allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
         allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
@@ -246,8 +230,7 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#save_game' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('start', 'save', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('start', 'save', 'exit')
         allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
         allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
@@ -263,8 +246,7 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#attempt_to_start' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('start', 'save', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('start', 'save', 'exit')
         allow(game_double).to receive(:chose_command).and_return(:start, :exit)
         allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
         allow(my_user_creation).to receive(:create_user).and_return(user1)
@@ -281,8 +263,7 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#attempt_to_start' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('start', 'save', 'exit')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('start', 'save', 'exit')
         allow(game_double).to receive(:chose_command).and_return(:start, :exit)
         allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
         allow(my_user_creation).to receive(:create_user).and_return(user1)
@@ -299,14 +280,14 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#attempt_to_start' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('start')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('start')
         allow(game_double).to receive(:chose_command).and_return(:start, :exit)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(CodebreakerConsole::UserCreation).to receive(:new).and_return(my_user_creation)
         allow(game_module).to receive(:user_guess_init).and_return('lose')
         allow(CodebreakerConsole::Game).to receive(:new).and_return(game_module)
         allow(game_double).to receive(:attempt_to_start).and_return(:yes)
+        allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
       end
       it 'ask for a new game after lose a write yes' do
         expect(:attempt_to_start).to be_truthy
@@ -315,14 +296,14 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#attempt_to_start' do
       before do
-        allow(view).to receive(:start_command)
-        allow(view).to receive(:fetch_input).and_return('start', 'no')
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('start', 'no')
         allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)
         allow(CodebreakerConsole::UserCreation).to receive(:new).and_return(my_user_creation)
         allow(game_module).to receive(:user_guess_init).and_return('lose')
         allow(CodebreakerConsole::Game).to receive(:new).and_return(game_module)
         allow(game_double).to receive(:attempt_to_start).and_return(:no)
+        allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
       end
       it 'ask for a new game after lose a write no' do
         expect(view).to receive(:exit_game).and_raise(SystemExit)
