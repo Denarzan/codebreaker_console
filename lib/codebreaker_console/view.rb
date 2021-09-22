@@ -21,7 +21,6 @@ module CodebreakerConsole
 
       def exit_game
         puts I18n.t 'menu.exit'
-        exit
       end
 
       def fetch_input

@@ -2,6 +2,8 @@ module CodebreakerConsole
   class Game
     attr_reader :user, :game, :used_hints
 
+    WIN = '++++'.freeze
+
     def initialize(user, game)
       @user = user
       @game = game
@@ -15,6 +17,7 @@ module CodebreakerConsole
 
       result = decryption(user_input)
       return 'win' if result == 'win'
+      return 'shutdown' if result == :shutdown
 
       user_guess_init
     end
@@ -23,7 +26,7 @@ module CodebreakerConsole
 
     def decryption(user_input)
       case user_input
-      when :exit then View.exit_game
+      when :exit then :shutdown
       when :hint then hint_command
       when :rules then View.rules
       when false
@@ -50,7 +53,7 @@ module CodebreakerConsole
       @user.attempts_used += 1
       compare = @game.compare_codes(user_code)
       print "#{compare.join(' ')}\n"
-      'win' if compare.join == '++++'
+      'win' if compare.join == WIN
     end
   end
 end

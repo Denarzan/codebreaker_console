@@ -4,14 +4,17 @@ module CodebreakerConsole
 
     FILE = 'rating.yml'.freeze
 
-    def initialize
+    def initialize(state = :start_command)
       @file = FILE
+      @game = NewSuperCodebreaker2021::Game.new
+      @state = state
     end
 
     def run
-      @game = NewSuperCodebreaker2021::Game.new
       View.run
-      start_command
+      loop do
+        @state == :shutdown ? break : send(@state)
+      end
     end
 
     private
@@ -22,10 +25,9 @@ module CodebreakerConsole
       when :start then start_game
       when :rules then View.rules
       when :stats then show_statistic
-      when :exit then View.exit_game
+      when :exit then exit_game
       else View.error_message
       end
-      start_command
     end
 
     def show_statistic
@@ -39,6 +41,8 @@ module CodebreakerConsole
 
     def start_game
       @user = UserCreation.new(@game).create_user
+      return exit_game if @user == :shutdown
+
       game
     end
 
@@ -49,6 +53,7 @@ module CodebreakerConsole
       when 'lose'
         View.lose(@game.code)
         attempt_to_start
+      when :shutdown then exit_game
       else View.error_message
       end
     end
@@ -58,7 +63,7 @@ module CodebreakerConsole
       command = View.fetch_input
       case command
       when 'save' then save_game
-      when 'exit' then View.exit_game
+      when 'exit' then exit_game
       when 'start' then View.run
       else
         View.error_message
@@ -76,9 +81,14 @@ module CodebreakerConsole
       command = @game.attempt_to_start(View.fetch_input)
       case command
       when :yes then true
-      when :no then View.exit_game
+      when :no then exit_game
       else View.error_message
       end
+    end
+
+    def exit_game
+      View.exit_game
+      @state = :shutdown
     end
   end
 end

@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
+gem 'ffaker', '~>2.19.0'
 gem 'i18n', '~> 1.8.10'
 gem 'new_super_codebreaker_2021', '~> 0.5.0'
 

@@ -296,6 +296,22 @@ RSpec.describe CodebreakerConsole::Menu do
 
     context '#attempt_to_start' do
       before do
+        allow($stdin).to receive_message_chain(:gets, :chomp).and_return('start')
+        allow(game_double).to receive(:chose_command).and_return(:start, :exit)
+        allow(my_user_creation).to receive(:create_user).and_return(user1)
+        allow(CodebreakerConsole::UserCreation).to receive(:new).and_return(my_user_creation)
+        allow(game_module).to receive(:user_guess_init).and_return(:shutdown)
+        allow(CodebreakerConsole::Game).to receive(:new).and_return(game_module)
+        allow(game_double).to receive(:attempt_to_start).and_return(:yes)
+        allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
+      end
+      it 'ask for a new game after lose a write yes' do
+        expect(:attempt_to_start).to be_truthy
+      end
+    end
+
+    context '#attempt_to_start' do
+      before do
         allow($stdin).to receive_message_chain(:gets, :chomp).and_return('start', 'no')
         allow(game_double).to receive(:chose_command).and_return(:start)
         allow(my_user_creation).to receive(:create_user).and_return(user1)

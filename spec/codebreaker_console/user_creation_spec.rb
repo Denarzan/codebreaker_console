@@ -21,8 +21,7 @@ RSpec.describe CodebreakerConsole::UserCreation do
         allow(game_double).to receive(:chose_difficulty).and_return(:exit)
       end
       it 'output name and exit the game' do
-        expect(view).to receive(:exit_game)
-        my_user_creation.create_user
+        expect(my_user_creation.create_user).to eq(:shutdown)
       end
     end
 
@@ -32,17 +31,14 @@ RSpec.describe CodebreakerConsole::UserCreation do
         allow(game_double).to receive(:take_name).and_return(:exit)
       end
       it 'output name and exit the game' do
-        expect(view).to receive(:exit_game).and_raise(SystemExit)
-        my_user_creation.create_user
-      rescue SystemExit
-        # Ignored
+        expect(my_user_creation.create_user).to eq(:shutdown)
       end
     end
 
     context '#name_init' do
       before do
         allow(view).to receive(:fetch_input).and_return('N')
-        allow(game_double).to receive(:take_name).and_return(false)
+        allow(game_double).to receive(:take_name).and_return(nil)
       end
       it 'output name and call error message' do
         expect(view).to receive(:bad_name_error).and_raise(SystemExit)
@@ -55,13 +51,10 @@ RSpec.describe CodebreakerConsole::UserCreation do
     context '#name_init' do
       before do
         allow(view).to receive(:fetch_input).and_return('N', 'exit')
-        allow(game_double).to receive(:take_name).and_return(false, :exit)
+        allow(game_double).to receive(:take_name).and_return(nil, :exit)
       end
       it 'output name and call error message and then exit' do
-        expect(view).to receive(:exit).and_raise(SystemExit)
-        my_user_creation.create_user
-      rescue SystemExit
-        # Ignored
+        expect(my_user_creation.create_user).to eq(:shutdown)
       end
     end
 
@@ -121,11 +114,9 @@ RSpec.describe CodebreakerConsole::UserCreation do
         allow(game_double).to receive(:take_name).and_return('Nazar')
         allow(game_double).to receive(:chose_difficulty).and_return(:monkey, :exit)
       end
-      it 'output user with name Nazar and hell difficulty' do
+      it 'output error if user with name Nazar and bad difficulty' do
         expect(view).to receive(:error_message)
         my_user_creation.create_user
-      rescue SystemExit
-        # Ignored
       end
     end
   end

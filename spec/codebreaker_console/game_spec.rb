@@ -56,10 +56,8 @@ RSpec.describe CodebreakerConsole::Game do
       allow(user1).to receive(:attempts_used=)
     end
     it 'should use decryption and return win' do
-      expect(game.user_guess_init).to receive(:exit).and_raise(SystemExit)
+      expect(game.user_guess_init).to eq('shutdown')
       game.user_guess_init
-    rescue SystemExit
-      # Ignored
     end
   end
 
@@ -69,10 +67,7 @@ RSpec.describe CodebreakerConsole::Game do
       allow(game_double).to receive(:user_guess).and_return(:exit)
     end
     it 'should use decryption and exit game' do
-      expect(view).to receive(:exit_game).and_raise(SystemExit)
-      game.user_guess_init
-    rescue SystemExit
-      # Ignored
+      expect(game.user_guess_init).to eq('shutdown')
     end
   end
 
