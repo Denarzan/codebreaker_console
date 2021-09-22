@@ -39,7 +39,7 @@ RSpec.describe CodebreakerConsole::View do
       allow(game_double).to receive(:show_stats).and_return(users)
     end
     it 'should return text if it is' do
-      expect(CodebreakerConsole::View).to receive(:puts)
+      expect(CodebreakerConsole::ShowStats).to receive_message_chain(:new, :show_statistic)
       CodebreakerConsole::View.statistic(game_double, 'spec/support/test_users.yml')
     end
   end
