@@ -74,82 +74,70 @@ RSpec.describe CodebreakerConsole::Game do
 
   context '#decryption' do
     before do
-      allow(view).to receive(:fetch_input).and_return('hint')
-      allow(game_double).to receive(:user_guess).and_return(:hint)
+      allow(view).to receive(:fetch_input).and_return('hint', 'exit')
+      allow(game_double).to receive(:user_guess).and_return(:hint, :exit)
     end
     it 'should use decryption and run hint method' do
-      expect(game).to receive(:hint_command).and_raise(SystemExit)
+      expect(game).to receive(:hint_command)
       game.user_guess_init
-    rescue SystemExit
-      # Ignored
     end
   end
 
   context '#decryption' do
     before do
-      allow(view).to receive(:fetch_input).and_return('rules')
-      allow(game_double).to receive(:user_guess).and_return(:rules)
+      allow(view).to receive(:fetch_input).and_return('rules', 'exit')
+      allow(game_double).to receive(:user_guess).and_return(:rules, :exit)
     end
     it 'should use decryption and show rules' do
-      expect(view).to receive(:rules).and_raise(SystemExit)
+      expect(view).to receive(:rules)
       game.user_guess_init
-    rescue SystemExit
-      # Ignored
     end
   end
 
   context '#decryption' do
     before do
-      allow(view).to receive(:fetch_input).and_return('monkey')
-      allow(game_double).to receive(:user_guess).and_return(false)
+      allow(view).to receive(:fetch_input).and_return('monkey', 'exit')
+      allow(game_double).to receive(:user_guess).and_return(false, :exit)
     end
     it 'should use decryption and show error' do
-      expect(view).to receive(:code_error).and_raise(SystemExit)
+      expect(view).to receive(:code_error)
       game.user_guess_init
-    rescue SystemExit
-      # Ignored
     end
   end
 
   context '#decryption' do
     before do
-      allow(view).to receive(:fetch_input).and_return('hint')
-      allow(game_double).to receive(:user_guess).and_return(:hint)
+      allow(view).to receive(:fetch_input).and_return('hint', 'exit')
+      allow(game_double).to receive(:user_guess).and_return(:hint, :exit)
     end
     it 'should use decryption and run hint method' do
-      expect(game).to receive(:use_hint).and_raise(SystemExit)
+      expect(game).to receive(:use_hint)
       game.user_guess_init
-    rescue SystemExit
-      # Ignored
     end
   end
 
   context '#decryption' do
     before do
-      allow(view).to receive(:fetch_input).and_return('hint')
-      allow(game_double).to receive(:user_guess).and_return(:hint)
+      allow(view).to receive(:fetch_input).and_return('hint', 'exit')
+      allow(game_double).to receive(:user_guess).and_return(:hint, :exit)
       allow(user1).to receive(:hints_total).and_return(1)
       allow(user1).to receive(:hints_used).and_return(1)
     end
     it 'should use decryption and show zero hints error' do
-      expect(view).to receive(:zero_hints).and_raise(SystemExit)
+      expect(view).to receive(:zero_hints)
       game.user_guess_init
-    rescue SystemExit
-      # Ignored
     end
   end
 
   context '#decryption' do
     before do
-      allow(view).to receive(:fetch_input).and_return('hint')
-      allow(game_double).to receive(:user_guess).and_return(:hint)
+      allow(view).to receive(:fetch_input).and_return('hint', 'exit')
+      allow(game_double).to receive(:user_guess).and_return(:hint, :exit)
       allow(game_double).to receive(:take_hint).and_return('1')
     end
     it 'should use decryption and run hint method' do
-      expect(game).to receive(:puts).and_raise(SystemExit)
+      expect(game).to receive(:puts)
       game.user_guess_init
-    rescue SystemExit
-      # Ignored
     end
   end
 end

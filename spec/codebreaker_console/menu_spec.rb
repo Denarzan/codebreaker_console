@@ -21,8 +21,6 @@ RSpec.describe CodebreakerConsole::Menu do
   describe '#run' do
     after do
       menu.run
-    rescue SystemExit
-      # Ignored
     end
 
     context '#start_command' do
@@ -90,8 +88,6 @@ RSpec.describe CodebreakerConsole::Menu do
       it 'should return empty file' do
         expect(view).to receive(:empty_file)
         menu.run
-      rescue SystemExit
-        # Ignored
       end
     end
 
@@ -108,8 +104,6 @@ RSpec.describe CodebreakerConsole::Menu do
       it 'should return statistic' do
         expect(view).to receive(:statistic)
         menu.run
-      rescue SystemExit
-        # Ignored
       end
     end
 
@@ -279,7 +273,7 @@ RSpec.describe CodebreakerConsole::Menu do
         allow(game_double).to receive(:attempt_to_start).and_return(:no)
       end
       it 'ask for a new game after win after write no' do
-        expect(view).to receive(:exit_game).and_raise(SystemExit)
+        expect(view).to receive(:exit_game)
       end
     end
 
@@ -327,7 +321,7 @@ RSpec.describe CodebreakerConsole::Menu do
         allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
       end
       it 'ask for a new game after lose after write no' do
-        expect(view).to receive(:exit_game).and_raise(SystemExit)
+        expect(view).to receive(:exit_game)
       end
     end
 
@@ -339,11 +333,11 @@ RSpec.describe CodebreakerConsole::Menu do
         allow(CodebreakerConsole::UserCreation).to receive(:new).and_return(my_user_creation)
         allow(game_module).to receive(:user_guess_init).and_return('lose')
         allow(CodebreakerConsole::Game).to receive(:new).and_return(game_module)
-        allow(game_double).to receive(:attempt_to_start).and_return(:monkey)
+        allow(game_double).to receive(:attempt_to_start).and_return(:monkey, :no)
         allow(game_double).to receive(:code).and_return([1, 2, 3, 4])
       end
       it 'show error message if bad input' do
-        expect(view).to receive(:error_message).and_raise(SystemExit)
+        expect(view).to receive(:error_message)
       end
     end
   end

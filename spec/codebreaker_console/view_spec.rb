@@ -19,8 +19,6 @@ RSpec.describe CodebreakerConsole::View do
   %i[bad_name_error run start start_new_game error_message rules difficulties write_name
      write_code code_error zero_hints ask_new_game empty_file no_file].each do |function_name|
     include_examples 'puts method', function_name
-  rescue SystemExit
-    # Ignored
   end
 
   include_examples 'puts method', :win, [1, 2, 3, 4]
