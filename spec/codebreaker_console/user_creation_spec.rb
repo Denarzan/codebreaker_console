@@ -38,13 +38,11 @@ RSpec.describe CodebreakerConsole::UserCreation do
     context '#name_init' do
       before do
         allow(view).to receive(:fetch_input).and_return('N')
-        allow(game_double).to receive(:take_name).and_return(nil)
+        allow(game_double).to receive(:take_name).and_return(nil, :exit)
       end
       it 'output name and call error message' do
-        expect(view).to receive(:bad_name_error).and_raise(SystemExit)
+        expect(view).to receive(:bad_name_error)
         my_user_creation.create_user
-      rescue SystemExit
-        # Ignored
       end
     end
 
@@ -60,15 +58,13 @@ RSpec.describe CodebreakerConsole::UserCreation do
 
     context '#name_init' do
       before do
-        allow(view).to receive(:fetch_input).and_return('Nazar', 'monkey', 'monkey2')
+        allow(view).to receive(:fetch_input).and_return('Nazar', 'monkey', 'exit')
         allow(game_double).to receive(:take_name).and_return('Nazar')
-        allow(game_double).to receive(:chose_difficulty).and_return(:monkey, :monkey2)
+        allow(game_double).to receive(:chose_difficulty).and_return(:monkey, :exit)
       end
       it 'output name and call error message' do
-        expect(view).to receive(:error_message).and_raise(SystemExit)
+        expect(view).to receive(:error_message)
         my_user_creation.create_user
-      rescue SystemExit
-        # Ignored
       end
     end
 

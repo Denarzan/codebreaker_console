@@ -1,7 +1,5 @@
 module CodebreakerConsole
   class Menu
-    attr_reader :state
-
     include CodebreakerConsole
 
     FILE = 'rating.yml'.freeze
@@ -34,15 +32,14 @@ module CodebreakerConsole
     end
 
     def show_statistic
-      if File.file?(@file)
-        if File.zero?(@file)
-          @state = :start_command
-          return View.empty_file
-        end
-        View.statistic(@game, @file)
-      else View.no_file
-      end
+      File.file?(@file) ? statistic_info : View.no_file
       @state = :start_command
+    end
+
+    def statistic_info
+      return View.empty_file if File.zero?(@file)
+
+      View.statistic(@game, @file)
     end
 
     def start
