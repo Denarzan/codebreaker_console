@@ -1,0 +1,26 @@
+AllCops:
+  TargetRubyVersion: 2.7
+  NewCops: enable
+
+Style/StringLiterals:
+  Enabled: true
+
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Layout/TrailingEmptyLines:
+  Enabled: true
+
+Style/Documentation:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 120
+
+Metrics/BlockLength:
+  Exclude:
+    - 'Gemfile'
+    - 'spec/**/*.rb'
