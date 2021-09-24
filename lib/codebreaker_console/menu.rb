@@ -1,8 +1,14 @@
 module CodebreakerConsole
   class Menu
+    attr_reader :state
+
     include CodebreakerConsole
 
     FILE = 'rating.yml'.freeze
+    ALLOWED_STATES = { start: :start,
+                       rules: :view_rules,
+                       stats: :show_statistic,
+                       exit: :shutdown }.freeze
 
     def initialize(state = :start_command)
       @file = FILE
@@ -21,29 +27,34 @@ module CodebreakerConsole
 
     def start_command
       View.start
-      case @game.chose_command(View.fetch_input)
-      when :start then start_game
-      when :rules then View.rules
-      when :stats then show_statistic
-      when :exit then exit_game
-      else View.error_message
-      end
+      input_sym = @game.chose_command(View.fetch_input)
+      return @state = ALLOWED_STATES[input_sym] if ALLOWED_STATES.include?(input_sym)
+
+      View.error_message
     end
 
     def show_statistic
       if File.file?(@file)
-        return View.empty_file if File.zero?(@file)
-
+        if File.zero?(@file)
+          @state = :start_command
+          return View.empty_file
+        end
         View.statistic(@game, @file)
       else View.no_file
       end
+      @state = :start_command
     end
 
-    def start_game
+    def start
       @user = UserCreation.new(@game).create_user
-      return exit_game if @user == :shutdown
+      return shutdown if @user == :shutdown
 
-      game
+      @state = :game
+    end
+
+    def view_rules
+      View.rules
+      @state = :start_command
     end
 
     def game
@@ -52,8 +63,8 @@ module CodebreakerConsole
       when 'win' then win_game
       when 'lose'
         View.lose(@game.code)
-        attempt_to_start
-      when :shutdown then exit_game
+        @state = :attempt_to_start
+      when :shutdown then shutdown
       else View.error_message
       end
     end
@@ -63,30 +74,30 @@ module CodebreakerConsole
       command = View.fetch_input
       case command
       when 'save' then save_game
-      when 'exit' then exit_game
+      when 'exit' then shutdown
       when 'start' then View.run
       else
         View.error_message
-        win_game
+        @state = :win_game
       end
     end
 
     def save_game
       @game.save(@user, FILE)
-      attempt_to_start
+      @state = :attempt_to_start
     end
 
     def attempt_to_start
-      puts View.start_new_game
+      View.start_new_game
       command = @game.attempt_to_start(View.fetch_input)
       case command
-      when :yes then true
-      when :no then exit_game
+      when :yes then @state = :start
+      when :no then shutdown
       else View.error_message
       end
     end
 
-    def exit_game
+    def shutdown
       View.exit_game
       @state = :shutdown
     end

@@ -38,6 +38,7 @@ RSpec.describe CodebreakerConsole::Game do
 
   context '#decryption' do
     before do
+      allow(game).to receive(:print)
       allow(view).to receive(:fetch_input).and_return('1234')
       allow(game_double).to receive(:user_guess).and_return('1234')
       allow(game_double).to receive(:compare_codes).and_return(%w[+ + + +])

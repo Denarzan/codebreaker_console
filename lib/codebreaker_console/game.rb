@@ -30,7 +30,7 @@ module CodebreakerConsole
       when :hint then hint_command
       when :rules then View.rules
       when false
-        puts View.code_error
+        View.code_error
       else use_attempt(user_input)
       end
     end
@@ -39,7 +39,7 @@ module CodebreakerConsole
       if @user.hints_total > @user.hints_used
         use_hint
       else
-        puts View.zero_hints
+        View.zero_hints
       end
     end
 
